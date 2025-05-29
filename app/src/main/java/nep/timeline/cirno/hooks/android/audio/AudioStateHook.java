@@ -2,6 +2,7 @@ package nep.timeline.cirno.hooks.android.audio;
 
 import android.media.AudioPlaybackConfiguration;
 
+import java.lang.reflect.Array;
 import java.util.List;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -9,6 +10,7 @@ import nep.timeline.cirno.entity.AppRecord;
 import nep.timeline.cirno.framework.AbstractMethodHook;
 import nep.timeline.cirno.framework.MethodHook;
 import nep.timeline.cirno.handlers.AudioHandler;
+import nep.timeline.cirno.log.Log;
 import nep.timeline.cirno.services.AppService;
 import nep.timeline.cirno.threads.Handlers;
 import nep.timeline.cirno.virtuals.AudioPlaybackConfigurationReflect;
@@ -30,7 +32,7 @@ public class AudioStateHook extends MethodHook {
 
     @Override
     public Object[] getTargetParam() {
-        return new Object[] { int.class, int.class };
+        return new Object[] { int.class, int[].class};
     }
 
     @Override
@@ -40,7 +42,6 @@ public class AudioStateHook extends MethodHook {
             protected void afterMethod(MethodHookParam param) {
                 if (!((boolean) param.getResult()))
                     return;
-
                 int event = (int) param.args[0];
                 if (AudioHandler.LISTEN_EVENT.contains(event)) {
                     AudioPlaybackConfigurationReflect reflect = new AudioPlaybackConfigurationReflect((AudioPlaybackConfiguration) param.thisObject);

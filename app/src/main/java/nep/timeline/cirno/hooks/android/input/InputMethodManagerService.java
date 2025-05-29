@@ -33,7 +33,7 @@ public class InputMethodManagerService extends MethodHook {
 
     @Override
     public Object[] getTargetParam() {
-        return new Object[] { String.class, int.class };
+        return new Object[] { String.class, int.class, int.class};
     }
 
     @Override

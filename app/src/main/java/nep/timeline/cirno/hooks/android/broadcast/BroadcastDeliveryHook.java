@@ -6,6 +6,7 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 import nep.timeline.cirno.framework.AbstractMethodHook;
 import nep.timeline.cirno.framework.MethodHook;
+import nep.timeline.cirno.log.Log;
 import nep.timeline.cirno.services.ProcessService;
 import nep.timeline.cirno.utils.SystemChecker;
 import nep.timeline.cirno.virtuals.BroadcastRecord;
@@ -18,20 +19,17 @@ public class BroadcastDeliveryHook extends MethodHook {
 
     @Override
     public String getTargetClass() {
-        return (Build.VERSION.SDK_INT > Build.VERSION_CODES.TIRAMISU) ? "com.android.server.am.BroadcastQueueImpl" : "com.android.server.am.BroadcastQueue";
+        return "com.android.server.am.BroadcastQueueModernImpl";
     }
 
     @Override
     public String getTargetMethod() {
-        return "deliverToRegisteredReceiverLocked";
+        return "shouldSkipReceiver";
     }
 
     @Override
     public Object[] getTargetParam() {
-        if (SystemChecker.isHuawei(classLoader))
-            return new Object[] { "com.android.server.am.BroadcastRecord", "com.android.server.am.BroadcastFilter", boolean.class, int.class, "com.android.server.am.BroadcastRecordEx" };
-
-        return new Object[] { "com.android.server.am.BroadcastRecord", "com.android.server.am.BroadcastFilter", boolean.class, int.class };
+        return new Object[] { "com.android.server.am.BroadcastProcessQueue", "com.android.server.am.BroadcastRecord", int.class };
     }
 
     @Override
@@ -39,21 +37,11 @@ public class BroadcastDeliveryHook extends MethodHook {
         return new AbstractMethodHook() {
             @Override
             protected void beforeMethod(XC_MethodHook.MethodHookParam param) {
-                Object record = param.args[0];
-                if (record == null)
+
+                Object queue = param.args[0];
+                if (queue == null)
                     return;
-
-                BroadcastRecord broadcastRecord = new BroadcastRecord(record);
-
-                Object filter = param.args[1];
-                if (filter == null)
-                    return;
-
-                Object receiver = XposedHelpers.getObjectField(filter, "receiverList");
-                if (receiver == null)
-                    return;
-
-                Object app = XposedHelpers.getObjectField(receiver, "app");
+                Object app = XposedHelpers.getObjectField(queue, "app");
                 if (app == null)
                     return;
 
@@ -62,8 +50,8 @@ public class BroadcastDeliveryHook extends MethodHook {
                     return;
 
                 if (processRecord.isFrozen()) {
-                    broadcastRecord.skippedDelivery((int) param.args[3]);
-                    param.setResult(null);
+                    //Log.d("skip broadcast from " + processRecord.getPid());
+                    param.setResult("already terminal state");
                 }
             }
         };

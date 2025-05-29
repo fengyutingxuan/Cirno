@@ -20,11 +20,11 @@ public class BroadcastIntentHook {
            Class<?> clazz = XposedHelpers.findClassIfExists("com.android.server.am.ActivityManagerService", classLoader);
 
            if (clazz == null) {
-               Log.e("无法监听广播意图!");
+               Log.e("无法监听广播意图1!");
                return;
            }
 
-           String methodName = (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE ? "broadcastIntentLocked" : "broadcastIntentLockedTraced");
+           String methodName = "broadcastIntentLocked";
 
            Method targetMethod = null;
            for (Method method : clazz.getDeclaredMethods())
@@ -32,7 +32,7 @@ public class BroadcastIntentHook {
                    targetMethod = method;
 
            if (targetMethod == null) {
-               Log.e("无法监听广播意图!");
+               Log.e("无法监听广播意图2!");
                return;
            }
 
@@ -41,11 +41,7 @@ public class BroadcastIntentHook {
                protected void beforeMethod(MethodHookParam param) {
                    int intentArgsIndex = 3;
 
-                   int userIdIndex = 19;
-                   if (Build.VERSION.SDK_INT > Build.VERSION_CODES.S_V2 && Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-                       userIdIndex = 20;
-                   if (Build.VERSION.SDK_INT > Build.VERSION_CODES.TIRAMISU)
-                       userIdIndex = 21;
+                   int userIdIndex = 20;
 
                    Intent intent = (Intent) param.args[intentArgsIndex];
                    int userId = (int) param.args[userIdIndex];
