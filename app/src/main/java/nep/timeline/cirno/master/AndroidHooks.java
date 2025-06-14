@@ -14,7 +14,6 @@ import nep.timeline.cirno.hooks.android.audio.PlayerBanHook;
 import nep.timeline.cirno.hooks.android.audio.SendMediaButtonHook;
 import nep.timeline.cirno.hooks.android.binder.HansKernelUnfreezeHook;
 import nep.timeline.cirno.hooks.android.binder.MilletBinderTransHook;
-import nep.timeline.cirno.hooks.android.binder.SamsungBinderTransHook;
 import nep.timeline.cirno.hooks.android.broadcast.BroadcastDeliveryHook;
 import nep.timeline.cirno.hooks.android.broadcast.BroadcastIntentHook;
 import nep.timeline.cirno.hooks.android.broadcast.BroadcastSkipHook;
@@ -74,7 +73,6 @@ public class AndroidHooks {
         // Binder
         new HansKernelUnfreezeHook(classLoader);
         new MilletBinderTransHook(classLoader);
-        new SamsungBinderTransHook(classLoader);
         // Recorder
         new RecorderEventHook(classLoader);
         new ReleaseRecorderHook(classLoader);

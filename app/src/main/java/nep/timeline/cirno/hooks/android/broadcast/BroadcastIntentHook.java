@@ -52,7 +52,7 @@ public class BroadcastIntentHook {
                    if (intent != null) {
                        String action = intent.getAction();
 
-                       if (action == null || !action.endsWith(".android.c2dm.intent.RECEIVE"))
+                       if (action == null || !action.endsWith(".android.c2dm.intent.RECEIVE") || action.equals("org.unifiedpush.android.connector.MESSAGE") || action.equals("com.meizu.flyme.push.intent.MESSAGE"))
                            return;
 
                        String packageName = (intent.getComponent() == null ? intent.getPackage() : intent.getComponent().getPackageName());
@@ -64,7 +64,7 @@ public class BroadcastIntentHook {
                        if (appRecord == null)
                            return;
 
-                       FreezerService.temporaryUnfreezeIfNeed(appRecord, "FCM PUSH", 1500);
+                       FreezerService.temporaryUnfreezeIfNeed(appRecord, "MESSAGE PUSH", 3000);
                    }
                }
            });

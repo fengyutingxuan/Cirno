@@ -57,7 +57,7 @@ public class BroadcastSkipHook extends MethodHook {
                     return;
 
                 if (processRecord.isFrozen())
-                    param.setResult("Skipping deliver [Freezer]: frozen process");
+                    param.setResult("Skipping deliver [Cirno]: frozen process");
             }
         };
     }
