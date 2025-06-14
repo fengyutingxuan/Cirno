@@ -8,7 +8,9 @@ import java.io.InterruptedIOException;
 import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -26,6 +28,17 @@ public class BinderService {
     private static boolean isRunning = false;
     private static final int NETLINK_UNIT_DEFAULT = 22;
     private static final int NETLINK_UNIT_MAX = 26;
+
+    private static Map<String, String> parseParams(String message) {
+        Map<String, String> map = new HashMap<>();
+        for (String keyValue : message.split(",")) {
+            String[] split = keyValue.split("=");
+            if (split.length == 2)
+                map.put(split[0].trim(), split[1].trim());
+        }
+
+        return map;
+    }
 
     public static void start(ClassLoader classLoader) {
         if (isRunning)
@@ -67,16 +80,17 @@ public class BinderService {
                             ByteBuffer byteBuffer = netlinkClient.recvMessage();
                             String data = new String(byteBuffer.array(), byteBuffer.position(), byteBuffer.limit(), StandardCharsets.UTF_8);
                             if (!data.isEmpty()) {
-                                if (data.contains("type=") && !received) {
+                                Map<String, String> params = parseParams(data.substring(data.indexOf("type"), data.lastIndexOf(";")));
+                                if (params.containsKey("type") && !received) {
                                     Log.i("成功接收到来自ReKernel的消息");
                                     received = true;
                                 }
                                 Handlers.rekernel.post(() -> {
-                                    String type = StringUtils.getSubString(data, "type=", ",").trim();
+                                    String type = params.get("type");
                                     if (type.equals("Binder")) {
-                                        String bindertype = StringUtils.getSubString(data, "bindertype=", ",").trim();
-                                        int oneway = StringUtils.StringToInteger(StringUtils.getSubString(data, "oneway=", ","));
-                                        int targetUid = StringUtils.StringToInteger(StringUtils.getSubString(data, "target=", ";"));
+                                        String bindertype = params.get("bindertype");
+                                        int oneway = StringUtils.StringToInteger(params.get("oneway"));
+                                        int targetUid = StringUtils.StringToInteger(params.get("target"));
                                         if (oneway == 1 && !bindertype.equals("free_buffer_full"))
                                             return;
 
