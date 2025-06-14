@@ -1,5 +1,7 @@
 package nep.timeline.cirno.hooks.android.binder;
 
+import android.os.Build;
+
 import de.robv.android.xposed.XC_MethodHook;
 import nep.timeline.cirno.framework.AbstractMethodHook;
 import nep.timeline.cirno.framework.MethodHook;
@@ -24,7 +26,9 @@ public class MilletBinderTransHook extends MethodHook {
 
     @Override
     public Object[] getTargetParam() {
-        return new Object[] { int.class, int.class, int.class, int.class, int.class, boolean.class, long.class, int.class };
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+            return new Object[]{ int.class, int.class, int.class, int.class, int.class, boolean.class, long.class, int.class, int.class };
+        return new Object[]{ int.class, int.class, int.class, int.class, int.class, boolean.class, long.class, int.class };
     }
 
     @Override
