@@ -1,7 +1,7 @@
 package nep.timeline.cirno.configs;
 
 public class ConfigManager {
-    private static final ConfigManagerInterface manager = new ConfigManagerJson();
+    public static final ConfigManagerJson manager = new ConfigManagerJson();
 
     public static void readConfig() {
         manager.readConfig();
