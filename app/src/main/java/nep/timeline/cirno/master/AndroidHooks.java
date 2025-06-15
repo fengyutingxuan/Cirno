@@ -1,5 +1,6 @@
 package nep.timeline.cirno.master;
 
+import android.os.Build;
 import android.os.FileObserver;
 
 import nep.timeline.cirno.configs.ConfigFileObserver;
@@ -59,9 +60,11 @@ public class AndroidHooks {
         // Alarms
         new AlarmManagerService(classLoader);
         // Broadcast
-        new BroadcastSkipHook(classLoader);
         new BroadcastIntentHook(classLoader);
-        new BroadcastDeliveryHook(classLoader);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.VANILLA_ICE_CREAM)
+            new BroadcastDeliveryHook(classLoader);
+        else
+            new BroadcastSkipHook(classLoader);
         // WakeLock
         new WakeLockHook(classLoader);
         // Activity
