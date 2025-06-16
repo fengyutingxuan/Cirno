@@ -71,29 +71,30 @@ public class ConfigManagerJson {
     }
 
     public boolean readConfigSU() {
+        boolean read = true;
         try {
             SuFile globalFile = new SuFile(GlobalVars.CONFIG_DIR, globalSettingsName);
             if (!globalFile.exists()) {
                 GlobalVars.globalSettings = new GlobalSettings();
-                return false;
+                read = false;
             } else {
                 String globalData = RWUtils.readConfig(globalFile);
                 GlobalVars.globalSettings = gson.fromJson(globalData, GlobalSettings.class);
                 if (GlobalVars.globalSettings == null) {
                     GlobalVars.globalSettings = new GlobalSettings();
-                    return false;
+                    read = false;
                 }
             }
             SuFile applicationFile = new SuFile(GlobalVars.CONFIG_DIR, applicationSettingsName);
             if (!applicationFile.exists()) {
                 GlobalVars.applicationSettings = new ApplicationSettings();
-                return false;
+                read = false;
             } else {
                 String applicationData = RWUtils.readConfig(applicationFile);
                 GlobalVars.applicationSettings = gson.fromJson(applicationData, ApplicationSettings.class);
                 if (GlobalVars.applicationSettings == null) {
                     GlobalVars.applicationSettings = new ApplicationSettings();
-                    return false;
+                    read = false;
                 }
             }
         } catch (JsonSyntaxException | JsonIOException e) {
@@ -102,7 +103,7 @@ public class ConfigManagerJson {
             return false;
         }
 
-        return true;
+        return read;
     }
 
     public void saveConfigSU() {
