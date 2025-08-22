@@ -1,0 +1,1 @@
+app freezer to make background apps completely free of CPU resources
