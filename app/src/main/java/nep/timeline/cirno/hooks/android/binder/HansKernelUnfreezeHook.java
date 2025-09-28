@@ -42,7 +42,7 @@ public class HansKernelUnfreezeHook extends MethodHook {
                     return;
                 int target = (int) param.args[4];
 
-                FreezerService.temporaryUnfreezeIfNeed(target, "Binder", 3000);
+                FreezerService.temporaryUnfreezeIfNeed(target, "Binder", 10000);
             }
         };
     }

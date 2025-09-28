@@ -1,9 +1,19 @@
 package nep.timeline.cirno.services;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
+import static de.robv.android.xposed.XposedHelpers.findClassIfExists;
+
+import android.app.ActivityManager;
+import android.content.Context;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import de.robv.android.xposed.XposedHelpers;
+import nep.timeline.cirno.GlobalVars;
 import nep.timeline.cirno.entity.AppRecord;
 import nep.timeline.cirno.threads.FreezerHandler;
 import nep.timeline.cirno.utils.FrozenRW;
@@ -24,7 +34,7 @@ public class ProcessService {
             appRecord.getProcessRecords().add(processRecord);
         }
 
-        FreezerHandler.sendFreezeMessage(appRecord, 3000);
+        FreezerHandler.sendFreezeMessage(appRecord, 10000);
     }
 
     public static void removeProcessRecord(ProcessRecord processRecord) {

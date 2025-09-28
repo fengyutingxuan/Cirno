@@ -58,10 +58,6 @@ public class Log {
     }
 
     public static void fileLog(String msg) {
-        try {
-            RWUtils.writeStringToFile(currentLog, msg, true);
-        } catch (IOException e) {
-            xposedLog("Log write failed: " + e.getMessage() + " msg: " + msg);
-        }
+        xposedLog(msg);
     }
 }

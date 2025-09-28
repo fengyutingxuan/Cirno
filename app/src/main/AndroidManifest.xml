@@ -5,6 +5,9 @@
     <uses-permission
         android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
+    <uses-permission
+        android:name="android.permission.KILL_BACKGROUND_PROCESSES"
+        tools:ignore="KillBackgroundProcessesPermission"/>
 
     <application
         android:icon="@mipmap/ic_logo_snowflake"
@@ -13,9 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Cirno">
 
-        <activity
-            android:name=".ApplicationActivity"
-            android:exported="false"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

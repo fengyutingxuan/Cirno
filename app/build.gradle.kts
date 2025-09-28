@@ -43,6 +43,7 @@ android {
 dependencies {
     implementation(libs.gson)
     implementation(libs.commons.io)
+    implementation(libs.androidx.navigation.compose)
     compileOnly("de.robv.android.xposed:api:82:sources")
     compileOnly("de.robv.android.xposed:api:82")
     compileOnly(libs.lombok)

@@ -17,7 +17,7 @@ public class LocationHandler {
         if (set.isEmpty()) {
             if (appRecord.getAppState().setLocation(false)) {
                 Log.d("应用 " + appRecord.getPackageNameWithUser() + " 结束定位");
-                FreezerHandler.sendFreezeMessage(appRecord, 3000);
+                FreezerHandler.sendFreezeMessage(appRecord, 10000);
             }
         } else if (appRecord.getAppState().setLocation(true)) {
             Log.d("应用 " + appRecord.getPackageNameWithUser() + " 开始定位");

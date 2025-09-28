@@ -48,7 +48,7 @@ public class SendMediaButtonHook {
                         if (record == null)
                             return;
 
-                        FreezerService.temporaryUnfreezeIfNeed(XposedHelpers.getIntField(record, "mOwnerUid"), "按下媒体按键", 3000);
+                        FreezerService.temporaryUnfreezeIfNeed(XposedHelpers.getIntField(record, "mOwnerUid"), "按下媒体按键", 10000);
                     }
                 });
                 Log.i(method.getName() + " -> 成功Hook完毕!");

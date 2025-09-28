@@ -101,7 +101,7 @@ public class BinderService {
                                             if (appRecord == null)
                                                 continue;
 
-                                            FreezerService.temporaryUnfreezeIfNeed(appRecord, "内核Binder(" + (oneway == 1 ? "ASYNC" : "SYNC") + "), 类型: " + bindertype, 3000);
+                                            FreezerService.temporaryUnfreezeIfNeed(appRecord, "内核Binder(" + (oneway == 1 ? "ASYNC" : "SYNC") + "), 类型: " + bindertype, 10000);
                                         }
                                     }
                                 });

@@ -33,7 +33,7 @@ public class InputMethodManagerService extends MethodHook {
 
     @Override
     public Object[] getTargetParam() {
-        return new Object[] { String.class, int.class };
+        return new Object[] { String.class, int.class, int.class};
     }
 
     @Override
@@ -82,7 +82,7 @@ public class InputMethodManagerService extends MethodHook {
                             if (appRecord != null)
                                 FreezerService.thaw(appRecord);
                             if (oldApp != null)
-                                FreezerHandler.sendFreezeMessage(oldApp, 3000);
+                                FreezerHandler.sendFreezeMessage(oldApp, 10000);
                         }
                     }
                 }
