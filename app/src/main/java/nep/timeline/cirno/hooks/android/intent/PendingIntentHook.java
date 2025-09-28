@@ -57,7 +57,7 @@ public class PendingIntentHook extends MethodHook {
                     if (appRecord == null || !appRecord.isFrozen())
                         return;
 
-                    FreezerService.temporaryUnfreezeIfNeed(appRecord, "Intent", 3000);
+                    FreezerService.temporaryUnfreezeIfNeed(appRecord, "Intent", 10000);
                 }
             }
         };

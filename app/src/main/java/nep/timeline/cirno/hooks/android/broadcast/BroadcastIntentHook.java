@@ -67,7 +67,7 @@ public class BroadcastIntentHook {
                        if (appRecord == null)
                            return;
 
-                       FreezerService.temporaryUnfreezeIfNeed(appRecord, "MESSAGE PUSH", 3000);
+                       FreezerService.temporaryUnfreezeIfNeed(appRecord, "MESSAGE PUSH", 10000);
                    }
                }
            });

@@ -112,8 +112,9 @@ fun ApplicationScreen(activity: ApplicationActivity) {
                                 checked = isWhitelisted.value,
                                 onCheckedChange = {
                                     isWhitelisted.value = it
-                                    GlobalVars.applicationSettings.whiteApps.add("$packageName#$userId")
+                                    if (it) GlobalVars.applicationSettings.whiteApps.add("$packageName#$userId") else GlobalVars.applicationSettings.whiteApps.remove("$packageName#$userId")
                                     ConfigManager.manager.saveConfigSU()
+                                    ConfigManager.manager.readConfigSU()
                                 }
                             )
                         }

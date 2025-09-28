@@ -32,6 +32,7 @@ import nep.timeline.cirno.hooks.android.signal.SendSignalQuietHook;
 import nep.timeline.cirno.hooks.android.vpn.VpnStateHook;
 import nep.timeline.cirno.hooks.android.wakelock.WakeLockHook;
 import nep.timeline.cirno.services.BinderService;
+import nep.timeline.cirno.hooks.android.binder.FreezerAppUpdateHook;
 
 public class AndroidHooks {
     public static void start(ClassLoader classLoader) {
@@ -83,6 +84,7 @@ public class AndroidHooks {
         new VpnStateHook(classLoader);
         // Intent
         new PendingIntentHook(classLoader);
+        new FreezerAppUpdateHook(classLoader);
         // ReKernel
         BinderService.start(classLoader);
     }
